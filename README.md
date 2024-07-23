@@ -33,11 +33,13 @@ This should lead to better scan results since most applications have WAFs in fro
 | Barracuda WAF         | 64 KB                                                  |
 | AWS WAF               | 8 KB - 64 KB (configurable depending on service)       |
 
-## How add manually extension to Burp Suite
+## How to add manually extension to Burp Suite
 
-1. Download latest release here
+https://github.com/user-attachments/assets/6f03e6b0-f8c6-4ac3-b573-6581461740bb
+
+1. Download the latest release [here](https://github.com/ahanel13/Firewall-Ferret/releases)
 2. Open the Extensions tab in Burp Suite
-3. Click Add and then add the extension as a java extension
+3. Click Add and then add the extension as a Java extension
 4. Close pop-up
 
 ## How to install extension from Burp Suite BAPP store
