@@ -1,5 +1,6 @@
 package view;
 
+import burp.api.montoya.http.message.HttpRequestResponse;
 import burp.api.montoya.ui.contextmenu.ContextMenuEvent;
 import burp.api.montoya.ui.contextmenu.ContextMenuItemsProvider;
 import burp.api.montoya.ui.contextmenu.MessageEditorHttpRequestResponse;
@@ -12,23 +13,19 @@ import java.util.List;
 import java.util.Optional;
 
 ////////////////////////////////////////
-// CLASS FirewallFerretMenuContext
+// CLASS FerretMenuProvider
 ////////////////////////////////////////
-public class FirewallFerretMenuContext implements ContextMenuItemsProvider {
+public class FerretMenuProvider implements ContextMenuItemsProvider {
 
 
 ////////////////////////////////////////
 // PUBLIC METHODS
 ////////////////////////////////////////
 //-----------------------------------------------------------------------------
-public FirewallFerretMenuContext() {
+public FerretMenuProvider() {
   // this maintains a single JMenuItem which will have a single event listener
-  _insertJunkData = new JMenuItem("Insert Junk Data");
-}
-
-//-----------------------------------------------------------------------------
-public void addEventListenerToMenuItem(ActionListener listener) {
-  _insertJunkData.addActionListener(listener);
+  _insertWafBullet = new JMenuItem("Insert WAF Bullet");
+  _addWafBullet    = new JMenuItem("Add WAF Bullet");
 }
 
 //-----------------------------------------------------------------------------
@@ -41,19 +38,41 @@ public List<Component> provideMenuItems(ContextMenuEvent event) {
     optional.isPresent() &&
     optional.get().selectionContext().equals(MessageEditorHttpRequestResponse.SelectionContext.REQUEST)
   ) {
-    menuItemList.add(_insertJunkData);
-    _reqRespEditor = optional.get();
-    _event         = event;
+    menuItemList.add(_insertWafBullet);
+    _reqResp = optional.get().requestResponse();
   }
+  else {
+    _reqResp = event.selectedRequestResponses().get(0);
+  }
+  
+  menuItemList.add(_addWafBullet);
+  _reqRespEditor = optional;
+  _event         = event;
   
   return menuItemList;
 }
 
+//-----------------------------------------------------------------------------
+public void addActionListenerToInsertItem(ActionListener l){
+  _insertWafBullet.addActionListener(l);
+}
 
-public MessageEditorHttpRequestResponse getReqResp() {
+//-----------------------------------------------------------------------------
+public void addActionListenerToAddItem(ActionListener l){
+  _addWafBullet.addActionListener(l);
+}
+
+//-----------------------------------------------------------------------------
+public Optional<MessageEditorHttpRequestResponse> getReqRespEditor() {
   return _reqRespEditor;
 }
 
+//-----------------------------------------------------------------------------
+public HttpRequestResponse getReqResp() {
+  return _reqResp;
+}
+
+//-----------------------------------------------------------------------------
 public ContextMenuEvent getEvent() {
   return _event;
 }
@@ -61,12 +80,14 @@ public ContextMenuEvent getEvent() {
 ////////////////////////////////////////
 // PRIVATE FIELDS
 ////////////////////////////////////////
-private final JMenuItem                        _insertJunkData;
+private final JMenuItem _insertWafBullet;
+private final JMenuItem _addWafBullet;
 
-private MessageEditorHttpRequestResponse _reqRespEditor;
+private Optional<MessageEditorHttpRequestResponse> _reqRespEditor;
 private ContextMenuEvent                 _event;
+private HttpRequestResponse              _reqResp;
 
 }
 ////////////////////////////////////////
-// CLASS FirewallFerretMenuContext
+// CLASS FerretMenuProvider
 ////////////////////////////////////////

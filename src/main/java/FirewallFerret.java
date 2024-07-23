@@ -1,7 +1,7 @@
 import burp.api.montoya.BurpExtension;
 import burp.api.montoya.MontoyaApi;
 import controller.FireWallFerretController;
-import view.FirewallFerretMenuContext;
+import view.FerretMenuProvider;
 
 ////////////////////////////////////////
 // CLASS FirewallFerret
@@ -16,7 +16,7 @@ public class FirewallFerret implements BurpExtension {
 @Override
 public void initialize(MontoyaApi montoyaApi) {
   _api         = montoyaApi;
-  _menuContext = new FirewallFerretMenuContext();
+  _menuContext = new FerretMenuProvider();
   _controller  = new FireWallFerretController(_api, _menuContext);
   
   _api.extension().setName("Firewall Ferret");
@@ -27,9 +27,9 @@ public void initialize(MontoyaApi montoyaApi) {
 ////////////////////////////////////////
 // PRIVATE FIELDS
 ////////////////////////////////////////
-private MontoyaApi                _api;
-private FirewallFerretMenuContext _menuContext;
-private FireWallFerretController  _controller;
+private MontoyaApi               _api;
+private FerretMenuProvider       _menuContext;
+private FireWallFerretController _controller;
 
 
 }
