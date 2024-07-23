@@ -5,8 +5,8 @@ package model.creators;
 ////////////////////////////////////////
 public class BulletFactory{
 
-public static String bullet(int size) {
-  return "a".repeat(Math.max(0, size));
+public static String bullet(int bytes) {
+  return "a".repeat(Math.max(0, bytes));
 }
 
 }
