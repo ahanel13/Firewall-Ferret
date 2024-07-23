@@ -133,53 +133,67 @@ private JPanel getSettingsPanel() {
   gbc.gridy = 0;
   gbc.anchor = GridBagConstraints.WEST;
   gbc.insets = new Insets(5, 5, 5, 5);
+  gbc.fill = GridBagConstraints.HORIZONTAL;
   
-  checkBox8kb = new JCheckBox("8kb bullets");
+  // Add description label
+  JLabel descriptionLabel = new JLabel(
+    "These buttons control the set of bullets used in conjunction with standard burp suite scan checks.");
+  gbc.gridwidth = 2; // Span across two columns
+  settingsPanel.add(descriptionLabel, gbc);
+  gbc.gridy++;
+  
+  // Reset gridwidth to default (1) for other components
+  gbc.gridwidth = 1;
+  
+  checkBox8kb = new JCheckBox("8 kb bullets");
   checkBox8kb.setSelected(true);
   settingsPanel.add(checkBox8kb, gbc);
   gbc.gridy++;
   
-  checkBox16kb = new JCheckBox("16kb bullets");
+  checkBox16kb = new JCheckBox("16 kb bullets");
   checkBox16kb.setSelected(true);
   settingsPanel.add(checkBox16kb, gbc);
   gbc.gridy++;
   
-  checkBox32kb = new JCheckBox("32kb bullets");
+  checkBox32kb = new JCheckBox("32 kb bullets");
   checkBox32kb.setSelected(true);
   settingsPanel.add(checkBox32kb, gbc);
   gbc.gridy++;
   
-  checkBox64kb = new JCheckBox("64kb bullets");
+  checkBox64kb = new JCheckBox("64 kb bullets");
   checkBox64kb.setSelected(true);
   settingsPanel.add(checkBox64kb, gbc);
   gbc.gridy++;
   
-  checkBox128kb = new JCheckBox("128kb bullets");
+  checkBox128kb = new JCheckBox("128 kb bullets");
   checkBox128kb.setSelected(true);
   settingsPanel.add(checkBox128kb, gbc);
   gbc.gridy++;
   
-  checkBox1024kb = new JCheckBox("1024kb bullets");
+  checkBox1024kb = new JCheckBox("1024 kb bullets");
   checkBox1024kb.setSelected(true);
   settingsPanel.add(checkBox1024kb, gbc);
   gbc.gridy++;
   
   customSizeCheckBox = new JCheckBox("Custom size");
+  gbc.gridx = 0;
   settingsPanel.add(customSizeCheckBox, gbc);
+  
   gbc.gridx = 1;
   customSizeTextField = new JTextField(10);
   settingsPanel.add(customSizeTextField, gbc);
-  
-  // Add messageLabel below the checkboxes
   gbc.gridx = 0;
   gbc.gridy++;
-  gbc.gridwidth = 2;
+  
+  // Add messageLabel below the checkboxes
+  gbc.gridwidth = 2; // Span across two columns
   gbc.fill = GridBagConstraints.HORIZONTAL;
   messageLabel = new JLabel(" "); // Initialize with empty text
   settingsPanel.add(messageLabel, gbc);
   
   return settingsPanel;
 }
+
 
 }
 ////////////////////////////////////////
