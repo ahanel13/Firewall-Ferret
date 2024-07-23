@@ -30,13 +30,20 @@ payload and prepend a bullet of the following sizes: `8, 16, 32, 64, 128, 1024`.
 This should lead to better scan results since most applications have WAFs in front.
 
 ## How to Use the Different Functionalities
-### Automatic Insert & Manual Insert
+### Automatic Insert 
 The automatic insert works for requests URL-Encoded, JSON, XML, Multipart bodies. 
-The bullet will be added as the first argument in the request. The manual insert 
-work by adding a bullet (a * X * 1024) where you're caret is.
+The bullet will be added as the first argument in the request.
 
-**Example**
+**Auto Add Examples**
 
+https://github.com/user-attachments/assets/231276a9-2629-4138-8778-211ff069b69c
+
+### Manual Insert
+The manual insert works by adding a bullet (a * X * 1024) where you're caret is.
+
+**Manual Insert Example**
+
+https://github.com/user-attachments/assets/1ff49890-575d-4f87-8121-780b23ff1ebb
 
 ### Active Scan
 The extension runs additional checks when the default active scan is used. If you
