@@ -1,15 +1,9 @@
 package model.actionListeners;////////////////////////////////////////
 
 import burp.api.montoya.MontoyaApi;
-import burp.api.montoya.http.message.requests.HttpRequest;
 import burp.api.montoya.ui.contextmenu.InvocationType;
-import burp.api.montoya.ui.contextmenu.MessageEditorHttpRequestResponse;
-import model.BulletBuilder;
-import model.RequestBuilder;
-import view.BulletOptionsDialog;
 import view.FerretMenuProvider;
 
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package model;
+package model.creators;
 
 import burp.api.montoya.core.Range;
 import burp.api.montoya.http.message.ContentType;

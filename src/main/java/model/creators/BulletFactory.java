@@ -1,15 +1,15 @@
-package model;
+package model.creators;
 
 ////////////////////////////////////////
-// CLASS BulletBuilder
+// CLASS BulletFactory
 ////////////////////////////////////////
-public class BulletBuilder {
+public class BulletFactory{
 
-public static String buildBullet(int size) {
+public static String bullet(int size) {
   return "a".repeat(Math.max(0, size));
 }
 
 }
 ////////////////////////////////////////
-// END CLASS BulletBuilder
+// END CLASS BulletFactory
 ////////////////////////////////////////

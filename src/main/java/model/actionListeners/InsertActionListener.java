@@ -4,8 +4,8 @@ import burp.api.montoya.MontoyaApi;
 import burp.api.montoya.http.message.requests.HttpRequest;
 import burp.api.montoya.ui.contextmenu.InvocationType;
 import burp.api.montoya.ui.contextmenu.MessageEditorHttpRequestResponse;
-import model.BulletBuilder;
-import model.RequestBuilder;
+import model.creators.BulletFactory;
+import model.creators.RequestBuilder;
 import view.BulletOptionsDialog;
 import view.FerretMenuProvider;
 
@@ -34,7 +34,7 @@ public void actionPerformed(ActionEvent e){
   
   
   Optional<MessageEditorHttpRequestResponse> reqRespEditor = menuContext.getReqRespEditor();
-  String      bullet = BulletBuilder.buildBullet(bulletSize);
+  String      bullet = BulletFactory.bullet(bulletSize);
   
   HttpRequest req;
   if(reqRespEditor.isPresent())
