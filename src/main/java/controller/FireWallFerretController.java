@@ -68,6 +68,8 @@ private void connectView2InsProvider(){
       
       _insProviderReg = _api.scanner()
         .registerInsertionPointProvider(new InsertPntProvider(bulletSizes));
+      
+      _view.setMessage("Updating Scanner bullets to: " + bulletSizes);
     }
   });
 }
@@ -114,8 +116,6 @@ private List<Integer> getBulletSizeList(){
     if(customInt > 0)
       sizes.add(customInt);
   }
-  
-  _api.logging().logToOutput("Updating Scanner bullets to:\n" + sizes);
   
   return sizes;
 }

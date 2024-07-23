@@ -1,9 +1,9 @@
 package view;
 
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JCheckBox;
 import javax.swing.JTextField;
-import javax.swing.event.ChangeListener;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -96,6 +96,11 @@ public boolean isCustomSizeSelected() {
   return customSizeCheckBox.isSelected();
 }
 
+//-----------------------------------------------------------------------------
+public void setMessage(String message) {
+  messageLabel.setText(message);
+}
+
 ////////////////////////////////////////
 // PRIVATE FIELDS
 ////////////////////////////////////////
@@ -107,6 +112,7 @@ private JCheckBox  checkBox64kb;
 private JCheckBox  checkBox128kb;
 private JCheckBox  checkBox1024kb;
 private JCheckBox  customSizeCheckBox;
+private JLabel     messageLabel;
 
 ////////////////////////////////////////
 // PRIVATE METHODS
@@ -163,6 +169,14 @@ private JPanel getSettingsPanel() {
   gbc.gridx = 1;
   customSizeTextField = new JTextField(10);
   settingsPanel.add(customSizeTextField, gbc);
+  
+  // Add messageLabel below the checkboxes
+  gbc.gridx = 0;
+  gbc.gridy++;
+  gbc.gridwidth = 2;
+  gbc.fill = GridBagConstraints.HORIZONTAL;
+  messageLabel = new JLabel(" "); // Initialize with empty text
+  settingsPanel.add(messageLabel, gbc);
   
   return settingsPanel;
 }
