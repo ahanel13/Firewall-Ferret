@@ -22,7 +22,7 @@ public class BulletOptionsDialog extends JDialog {
 ////////////////////////////////////////
 //-----------------------------------------------------------------------------
 public BulletOptionsDialog() {
-  super((JFrame) null, "Options Panel", true);
+  super((JFrame) null, "Bullet Size Options", true);
   setSize(DIALOG_WIDTH, DIALOG_HEIGHT);
   setLocationRelativeTo(null);
   JPanel optionsPanel = createOptionsPanel();
@@ -118,20 +118,10 @@ private JPanel createButtonPanel() {
   JPanel buttonPanel = new JPanel();
   
   JButton okButton = new JButton("OK");
-  okButton.addActionListener(new ActionListener() {
-    @Override
-    public void actionPerformed(ActionEvent e) {
-      handleOkButtonAction();
-    }
-  });
+  okButton.addActionListener(e->handleOkButtonAction());
   
   JButton cancelButton = new JButton("Cancel");
-  cancelButton.addActionListener(new ActionListener() {
-    @Override
-    public void actionPerformed(ActionEvent e) {
-      handleCancelButtonAction();
-    }
-  });
+  cancelButton.addActionListener(e->handleCancelButtonAction());
   
   buttonPanel.add(okButton);
   buttonPanel.add(cancelButton);
