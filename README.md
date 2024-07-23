@@ -35,7 +35,7 @@ This should lead to better scan results since most applications have WAFs in fro
 
 ## How to add manually extension to Burp Suite
 
-https://github.com/user-attachments/assets/127e8310-23e6-4b4d-beb3-57ce9539a9b3
+https://github.com/user-attachments/assets/6f03e6b0-f8c6-4ac3-b573-6581461740bb
 
 1. Download the latest release [here](https://github.com/ahanel13/Firewall-Ferret/releases)
 2. Open the Extensions tab in Burp Suite
