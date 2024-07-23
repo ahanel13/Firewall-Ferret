@@ -1,5 +1,6 @@
 import burp.api.montoya.BurpExtension;
 import burp.api.montoya.MontoyaApi;
+import burp.api.montoya.extension.ExtensionUnloadingHandler;
 import controller.FireWallFerretController;
 import model.InsertPntProvider;
 import view.FerretMenuProvider;
@@ -23,6 +24,18 @@ public void initialize(MontoyaApi montoyaApi) {
   
   _api.extension().setName("Firewall Ferret");
   _api.logging().logToOutput("Extension Installed");
+  
+  _registerUnloader();
+}
+
+//-----------------------------------------------------------------------------
+private void _registerUnloader(){
+  _api.extension().registerUnloadingHandler(new ExtensionUnloadingHandler(){
+    @Override
+    public void extensionUnloaded(){
+      _api.logging().logToOutput("Extension unloaded.");
+    }
+  });
 }
 
 
