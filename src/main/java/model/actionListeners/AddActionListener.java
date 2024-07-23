@@ -26,7 +26,7 @@ public AddActionListener(MontoyaApi montoyaApi, FerretMenuProvider context, List
 //-------------------------------------------------------------------------
 @Override
 public void actionPerformed(ActionEvent e){
-  BulletOptionsDialog dialog = new BulletOptionsDialog();
+  BulletOptionsDialog dialog = new BulletOptionsDialog(api.userInterface().swingUtils().suiteFrame());
   dialog.showDialog();
   int bulletSize = dialog.getByteSize();
   

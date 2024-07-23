@@ -26,7 +26,7 @@ public InsertActionListener(MontoyaApi api, FerretMenuProvider context, List<Inv
 //-------------------------------------------------------------------------
 @Override
 public void actionPerformed(ActionEvent e){
-  BulletOptionsDialog dialog = new BulletOptionsDialog();
+  BulletOptionsDialog dialog = new BulletOptionsDialog(api.userInterface().swingUtils().suiteFrame());
   dialog.showDialog();
   int bulletSize = dialog.getByteSize();
   

@@ -4,10 +4,10 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -21,12 +21,13 @@ public class BulletOptionsDialog extends JDialog {
 // PUBLIC METHODS
 ////////////////////////////////////////
 //-----------------------------------------------------------------------------
-public BulletOptionsDialog() {
-  super((JFrame) null, "Bullet Size Options", true);
-  setSize(DIALOG_WIDTH, DIALOG_HEIGHT);
-  setLocationRelativeTo(null);
+public BulletOptionsDialog(Frame burpFrame) {
+  super(burpFrame, "Bullet Size Options", true);
   JPanel optionsPanel = createOptionsPanel();
-  this.add(optionsPanel);
+  
+  setSize(DIALOG_WIDTH, DIALOG_HEIGHT);
+  setLocationRelativeTo(burpFrame); // Set location relative to the parent frame
+  add(optionsPanel);
 }
 
 //-----------------------------------------------------------------------------
@@ -50,8 +51,8 @@ public int getByteSize() {
 ////////////////////////////////////////
 // PRIVATE FIELDS
 ////////////////////////////////////////
-private static final int    DIALOG_WIDTH  = 400;
-private static final int    DIALOG_HEIGHT = 200;
+private static final int    DIALOG_WIDTH  = 250;
+private static final int    DIALOG_HEIGHT = 100;
 private static final String CUSTOM_OPTION = "Custom";
 
 private JComboBox<String> dropdown;
