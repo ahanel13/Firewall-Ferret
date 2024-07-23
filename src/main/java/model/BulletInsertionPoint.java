@@ -1,4 +1,4 @@
-package model;////////////////////////////////////////
+package model;
 
 import burp.api.montoya.core.ByteArray;
 import burp.api.montoya.core.Range;

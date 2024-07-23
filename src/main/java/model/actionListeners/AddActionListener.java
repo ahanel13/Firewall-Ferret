@@ -1,4 +1,4 @@
-package model.actionListeners;////////////////////////////////////////
+package model.actionListeners;
 
 import burp.api.montoya.MontoyaApi;
 import burp.api.montoya.http.message.requests.HttpRequest;

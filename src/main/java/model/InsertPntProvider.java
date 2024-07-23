@@ -1,4 +1,4 @@
-package model;////////////////////////////////////////
+package model;
 
 import burp.api.montoya.http.message.HttpRequestResponse;
 import burp.api.montoya.scanner.audit.insertionpoint.AuditInsertionPoint;
