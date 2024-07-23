@@ -2,6 +2,7 @@ package controller;
 
 import burp.api.montoya.MontoyaApi;
 import burp.api.montoya.ui.contextmenu.InvocationType;
+import model.InsertPntProvider;
 import model.actionListeners.AddActionListener;
 import model.actionListeners.InsertActionListener;
 import view.FerretMenuProvider;
@@ -22,12 +23,17 @@ public class FireWallFerretController {
 // PUBLIC METHODS
 ////////////////////////////////////////
 //-----------------------------------------------------------------------------
-public FireWallFerretController(MontoyaApi api, FerretMenuProvider menuContext) {
+public FireWallFerretController(
+  MontoyaApi api, FerretMenuProvider menuContext, InsertPntProvider insPointProvider
+) {
   _api = api;
   _menuContext = menuContext;
+  _insPointProvider = insPointProvider;
   
   registerMenuContext();
+  registerInsertionProvider();
 }
+
 
 
 ////////////////////////////////////////
@@ -35,6 +41,7 @@ public FireWallFerretController(MontoyaApi api, FerretMenuProvider menuContext) 
 ////////////////////////////////////////
 private final MontoyaApi         _api;
 private final FerretMenuProvider _menuContext;
+private final InsertPntProvider  _insPointProvider;
 
 
 ////////////////////////////////////////
@@ -57,6 +64,11 @@ private final List<InvocationType> replacingInvocationType = List.of(
   MESSAGE_EDITOR_RESPONSE,
   INTRUDER_PAYLOAD_POSITIONS
 );
+
+//-----------------------------------------------------------------------------
+private void registerInsertionProvider(){
+  _api.scanner().registerInsertionPointProvider(_insPointProvider);
+}
 
 }
 ////////////////////////////////////////
