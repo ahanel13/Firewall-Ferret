@@ -4,11 +4,22 @@ Burp Extension. It's well known that WAFs only scan up to a certain amount of da
 per request. This extension allows a tester to manually insert junk data and 
 adds junk data to Active Scans by duplicating each scan check. 
 
+---
+
+## Table of Contents
+1. [Functionalities](#functionalities)
+2. [How to Use the Different Functionalities](#how-to-use-the-different-functionalities)
+3. [How to Configure the Extension](#how-to-configure-extension)
+4. [Common WAF Limits](#common-waf-limits)
+5. [How to Add Manually Extension to Burp Suite](#how-to-add-manually-extension-to-burp-suite)
+6. [How to Install Extension from Burp Suite BAPP Store](#how-to-install-extension-from-burp-suite-bapp-store)
+
+---
 
 ## Functionalities
 ![Extension Menu Screenshot](media/ExtensionMenu.png)
 This extension provides a few functionalities.
-1. The option to insert a bullet of X Kilobyte
+1. The option to manually insert a bullet of X Kilobyte
 2. The option to allow the extension to add a parameter of bullet of X Kilobyte
    1. The following requests are supported: URL-Encoded Body, JSON, XML, Multipart
    2. The following requests are a work in progress: AMF
@@ -17,6 +28,27 @@ This extension provides a few functionalities.
 3. Adds a check for every burp active scan check. The check will take the standard
 payload and prepend a bullet of the following sizes: `8, 16, 32, 64, 128, 1024`. 
 This should lead to better scan results since most applications have WAFs in front.
+
+## How to Use the Different Functionalities
+### Automatic Insert & Manual Insert
+The automatic insert works for requests URL-Encoded, JSON, XML, Multipart bodies. 
+The bullet will be added as the first argument in the request. The manual insert 
+work by adding a bullet (a * X * 1024) where you're caret is.
+
+**Example**
+
+
+### Active Scan
+The extension runs additional checks when the default active scan is used. If you
+require this feature to be disabled, uncheck all the boxes on the extension's settings tab.
+
+## How to Configure Extension
+1. Click on `Firewall Ferret` tab
+2. Select the bullets you want the scanner to try with its payloads
+
+![Settings Tab](media/SettingsTab.png)
+
+The extension will automatically update what the scanner uses when you click a checkbox
 
 ## Common WAF Limits
 | WAF Provider          | Maximum Request Body Inspection Size Limit             |
