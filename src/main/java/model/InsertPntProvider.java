@@ -11,20 +11,22 @@ import java.util.List;
 // CLASS InsertPntProvider
 ////////////////////////////////////////
 public class InsertPntProvider implements AuditInsertionPointProvider{
+
+
+public InsertPntProvider(List<Integer> sizes){bulletSizes = sizes;}
+
 @Override
 public List<AuditInsertionPoint> provideInsertionPoints(HttpRequestResponse baseHttpReqResp){
-  List<AuditInsertionPoint> insPoints = new ArrayList<>(_BULLET_SIZES.size());
+  List<AuditInsertionPoint> insPoints = new ArrayList<>(bulletSizes.size());
   
-  for(Integer size : _BULLET_SIZES) {
+  for(Integer size : bulletSizes) {
     insPoints.add(new BulletInsertionPoint(baseHttpReqResp.request(), size));
   }
   
   return insPoints;
 }
 
-private static final List<Integer> _BULLET_SIZES = List.of(
-  8, 16, 32, 64, 128, 1024
-);
+private final List<Integer> bulletSizes;
 
 }
 ////////////////////////////////////////
