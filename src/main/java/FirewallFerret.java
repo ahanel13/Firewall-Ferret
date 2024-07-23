@@ -2,7 +2,6 @@ import burp.api.montoya.BurpExtension;
 import burp.api.montoya.MontoyaApi;
 import burp.api.montoya.extension.ExtensionUnloadingHandler;
 import controller.FireWallFerretController;
-import model.InsertPntProvider;
 import view.FerretMenuProvider;
 import view.FerretSuiteTab;
 

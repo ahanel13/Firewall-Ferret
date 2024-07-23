@@ -119,10 +119,8 @@ private JLabel     messageLabel;
 ////////////////////////////////////////
 //-----------------------------------------------------------------------------
 private JPanel getAppInfo() {
-  // Implementation of getAppInfo method
-  JPanel infoPanel = new JPanel();
-  // Add components to infoPanel
-  return infoPanel;
+  // todo
+  return new JPanel();
 }
 
 //-----------------------------------------------------------------------------
