@@ -169,27 +169,27 @@ private JPanel getSettingsPanel() {
   gbc.gridy++;
   
   checkBox16kb = new JCheckBox("16 kb bullets");
-  checkBox16kb.setSelected(true);
+  checkBox16kb.setSelected(false);
   settingsPanel.add(checkBox16kb, gbc);
   gbc.gridy++;
   
   checkBox32kb = new JCheckBox("32 kb bullets");
-  checkBox32kb.setSelected(true);
+  checkBox32kb.setSelected(false);
   settingsPanel.add(checkBox32kb, gbc);
   gbc.gridy++;
   
   checkBox64kb = new JCheckBox("64 kb bullets");
-  checkBox64kb.setSelected(true);
+  checkBox64kb.setSelected(false);
   settingsPanel.add(checkBox64kb, gbc);
   gbc.gridy++;
   
   checkBox128kb = new JCheckBox("128 kb bullets");
-  checkBox128kb.setSelected(true);
+  checkBox128kb.setSelected(false);
   settingsPanel.add(checkBox128kb, gbc);
   gbc.gridy++;
   
   checkBox1024kb = new JCheckBox("1024 kb bullets");
-  checkBox1024kb.setSelected(true);
+  checkBox1024kb.setSelected(false);
   settingsPanel.add(checkBox1024kb, gbc);
   gbc.gridy++;
   
