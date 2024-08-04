@@ -1,9 +1,15 @@
 package view;
 
+import burp.api.montoya.logging.Logging;
+
+import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JCheckBox;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -17,27 +23,39 @@ public class FerretSuiteTab extends JPanel {
 ////////////////////////////////////////
 // PUBLIC METHODS
 ////////////////////////////////////////
-public FerretSuiteTab() {
+public FerretSuiteTab(Logging logger) {
   super(new GridBagLayout());
-  JPanel info = getAppInfo();
-  JPanel settings = getSettingsPanel();
+  _logger = logger;
+  JPanel      info       = getAppInfo();
+  JPanel      settings   = getSettingsPanel();
+  JScrollPane tablePanel = getTablePanel();
   
   GridBagConstraints infoCons = new GridBagConstraints();
-  infoCons.gridx = 0;
+  infoCons.gridx = 1;
   infoCons.gridy = 0;
-  infoCons.weightx = 1.0;
+  infoCons.weightx = .5;
   infoCons.fill = GridBagConstraints.HORIZONTAL;
   infoCons.insets = new Insets(10, 10, 10, 10);
   
   GridBagConstraints settingsCons = new GridBagConstraints();
-  settingsCons.gridx = 0;
+  settingsCons.gridx = 1;
   settingsCons.gridy = 1;
-  settingsCons.weightx = 1.0;
+  settingsCons.weightx = .5;
   settingsCons.fill = GridBagConstraints.HORIZONTAL;
   settingsCons.insets = new Insets(10, 10, 10, 10);
   
+  GridBagConstraints tableCons = new GridBagConstraints();
+  tableCons.gridx = 0;
+  tableCons.gridy = 2;
+  tableCons.gridwidth = 3;
+  tableCons.weightx = 1.0;
+  tableCons.weighty = 1.0;
+  tableCons.fill = GridBagConstraints.BOTH;
+  tableCons.insets = new Insets(50, 50, 50, 50);
+  
   add(info, infoCons);
   add(settings, settingsCons);
+  add(tablePanel, tableCons);
 }
 
 //-----------------------------------------------------------------------------
@@ -104,6 +122,8 @@ public void setMessage(String message) {
 ////////////////////////////////////////
 // PRIVATE FIELDS
 ////////////////////////////////////////
+private final Logging _logger;
+
 private JTextField customSizeTextField;
 private JCheckBox  checkBox8kb;
 private JCheckBox  checkBox16kb;
@@ -191,6 +211,63 @@ private JPanel getSettingsPanel() {
   
   return settingsPanel;
 }
+
+//-----------------------------------------------------------------------------
+private JScrollPane getTablePanel() {
+  // Define column names
+  String[] columnNames = {"WAF Provider", "Maximum Request Body Inspection Size Limit", "Sources"};
+  
+  // Define table data with raw URLs
+  Object[][] data = {
+    {"Cloudflare", "128 KB for ruleset engine, up to 100 - 500 MB depending on the plan",
+      "https://developers.cloudflare.com/ruleset-engine/rules-language/fields/#http-request-body-fields"},
+    {"AWS WAF", "8 KB - 64 KB (configurable depending on service)",
+      "https://docs.aws.amazon.com/waf/latest/developerguide/waf-oversize-request-components.html"},
+    {"Azure WAF", "128 KB - 4 GB (configurable depending on service & rule set version)",
+      "https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/azure-subscription-service-limits#application-gateway-limits"},
+    {"Akamai", "8 KB, 1 KB, 32 KB",
+      "https://techdocs.akamai.com/application-security/reference/put-advanced-settings-request-body"},
+    {"Fortiweb by Fortinet", "0 MB - 200 MB (configurable)",
+      "https://help.fortinet.com/fweb/582/Content/FortiWeb/fortiweb-admin/limit_file_uploads.htm"},
+    {"F5 BIG-IP WAAP", "1 KB (configurable)",
+      "https://clouddocs.f5.com/bigip-next/20-2-0/waf_management/cm_awaf_manage_edit_policy.html"},
+    {"Palo Alto", "_Unknown_", ""},
+    {"Barracuda WAF", "_Unknown_", ""},
+    {"Radware AppWall", "30 KB - 20 KB",
+      "https://portals.radware.com/releasenotes/appwall_release_notes_7_6_14/index.html#page/AppWall_Release_Notes_7_6_14/AppWall_7614-RN%20-%20final.1.09.html#wwconnect_header"},
+    {"Sucuri", "_Unknown_", ""}
+  };
+  
+  // Create table model and table
+  DefaultTableModel model = new DefaultTableModel(data, columnNames);
+  JTable table = new JTable(model) {
+    @Override
+    public Class<?> getColumnClass(int column) {
+      return String.class;
+    }
+    
+    @Override
+    public boolean isCellEditable(int row, int column) {
+      return false; // Cells are not editable
+    }
+  };
+  
+  // Enable row selection
+  table.setCellSelectionEnabled(true);
+  table.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+  
+  // Set column widths based on percentage of total table width
+  final int totalWidth = 1000; // Assume a total table width of 1000 pixels
+  table.getColumnModel().getColumn(0).setPreferredWidth((int) (totalWidth * 0.15)); // 15%
+  table.getColumnModel().getColumn(1).setPreferredWidth((int) (totalWidth * 0.35)); // 35%
+  table.getColumnModel().getColumn(2).setPreferredWidth((int) (totalWidth * 0.50)); // 50%
+  
+  // Wrap the table in a scroll pane and return it
+  JScrollPane scrollPane = new JScrollPane(table);
+  scrollPane.setPreferredSize(new Dimension(totalWidth, 400)); // Set preferred size for the scroll pane
+  return scrollPane;
+}
+
 
 
 }

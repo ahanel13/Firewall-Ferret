@@ -18,7 +18,7 @@ public class FirewallFerret implements BurpExtension {
 @Override
 public void initialize(MontoyaApi montoyaApi) {
   _api             = montoyaApi;
-  _view            = new FerretSuiteTab();
+  _view            = new FerretSuiteTab(_api.logging());
   _menuContext     = new FerretMenuProvider();
   _controller      = new FireWallFerretController(_api, _menuContext, _view);
   
