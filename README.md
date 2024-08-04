@@ -58,19 +58,19 @@ require this feature to be disabled, uncheck all the boxes on the extension's se
 The extension will automatically update what the scanner uses when you click a checkbox
 
 ## Common WAF Limits
-| WAF Provider          | Maximum Request Body Inspection Size Limit             |
-|-----------------------|--------------------------------------------------------|
-| Radware AppWall       | up to 1 GB for cloud WAF                               |
-| Cloudflare            | 128 KB for ruleset engine, up to 500 MB for enterprise |
-| Fortiweb by Fortinet  | 128 MB                                                 |
-| F5 BIG-IP WAAP        | 20 MB (configurable)                                   |
-| Sucuri                | 8 MB                                                   |
-| Palo Alto             | 8 MB                                                   |
-| Akamai                | 8 KB - 128 KB                                          |
-| Cloud Armor by Google | 8 KB (can be increased to 128 KB)                      |
-| Azure WAF             | 128 KB - 4MB                                           |
-| Barracuda WAF         | 64 KB                                                  |
-| AWS WAF               | 8 KB - 64 KB (configurable depending on service)       |
+| WAF Provider         | Maximum Request Body Inspection Size Limit                           | Sources                                                                                                                                                                                                                                          |
+|----------------------|----------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Cloudflare           | 128 KB for ruleset engine, up to 100 - 500 MB depending on the plan  | [Ruleset Engine](https://developers.cloudflare.com/ruleset-engine/rules-language/fields/#http-request-body-fields)<br>[Cloudflare Plan Limits](https://developers.cloudflare.com/ruleset-engine/rules-language/fields/#http-request-body-fields) |
+| AWS WAF              | 8 KB - 64 KB (configurable depending on service)                     | [Handling Oversize Requests](https://docs.aws.amazon.com/waf/latest/developerguide/waf-oversize-request-components.html)                                                                                                                         |
+| Azure WAF            | 128 KB - 4 GB (configurable depending on service & rule set version) | [Application Gateway Limits](https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/azure-subscription-service-limits#application-gateway-limits)                                                                             |
+| Akamai               | 8 KB, 1 KB, 32 KB                                                    | [Body Inspection Limit](https://techdocs.akamai.com/application-security/reference/put-advanced-settings-request-body)                                                                                                                           |
+| Fortiweb by Fortinet | 0 MB - 200 MB (configurable)                                         | [Limiting File Uploads](https://help.fortinet.com/fweb/582/Content/FortiWeb/fortiweb-admin/limit_file_uploads.htm)                                                                                                                               |
+| F5 BIG-IP WAAP       | 1 KB (configurable)                                                  | [Policy Management](https://clouddocs.f5.com/bigip-next/20-2-0/waf_management/cm_awaf_manage_edit_policy.html)                                                                                                                                   |
+| Palo Alto            | _Unknown_                                                            |                                                                                                                                                                                                                                                  |
+| Barracuda WAF        | _Unknown_                                                            |                                                                                                                                                                                                                                                  |
+| Radware AppWall      | 30 KB - 20 KB                                                        | [AppWall Documentation](https://portals.radware.com/releasenotes/appwall_release_notes_7_6_14/index.html#page/AppWall_Release_Notes_7_6_14/AppWall_7614-RN%20-%20final.1.09.html#wwconnect_header)                                               |
+| Sucuri               | _Unknown_                                                            |                                                                                                                                                                                                                                                  |
+
 
 ## How to add manually extension to Burp Suite
 
