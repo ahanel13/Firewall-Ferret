@@ -123,7 +123,9 @@ private static String extractBoundary(String request) {
 
 //-----------------------------------------------------------------------------
 private static HttpRequest padAmfWith(HttpRequest request, String bullet) {
-  return request;
+  throw new UnsupportedOperationException(
+      "AMF Padding in not yet supported. See https://github.com/ahanel13/Firewall-Ferret/issues/1" +
+          " for more information and or to contribute to the project.");
 }
 
 //-----------------------------------------------------------------------------
