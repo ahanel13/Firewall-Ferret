@@ -9,6 +9,7 @@ import model.creators.RequestBuilder;
 import view.BulletOptionsDialog;
 import view.FerretMenuProvider;
 
+import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.util.List;
 import java.util.Optional;
@@ -34,18 +35,28 @@ public void actionPerformed(ActionEvent e){
   
   Optional<MessageEditorHttpRequestResponse> reqRespEditor = menuContext.getReqRespEditor();
   String      bullet     = BulletFactory.bullet(bulletSize);
-  HttpRequest contextReq = menuContext.getReqResp().request();
-  HttpRequest updatedReq = getRequest(contextReq, bullet);
-  
-  if(_isEditorEvent() && reqRespEditor.isPresent()) // if event came from an editor then replace the request
-    reqRespEditor.get().setRequest(updatedReq);
-  else // else if the event came from a viewer, then create a repeater tab
-    api.repeater().sendToRepeater(updatedReq);
+  HttpRequest           contextReq = menuContext.getReqResp().request();
+  Optional<HttpRequest> updatedReq = getRequest(contextReq, bullet);
+
+  if(updatedReq.isPresent()){
+    if(_isEditorEvent() && reqRespEditor.isPresent()) // if event came from an editor then replace the request
+      reqRespEditor.get().setRequest(updatedReq.orElse(null));
+    else // else if the event came from a viewer, then create a repeater tab
+      api.repeater().sendToRepeater(updatedReq.orElse(null));
+  }
 }
 
 //-------------------------------------------------------------------------
-public HttpRequest getRequest(HttpRequest request, String bullet){
-  return RequestBuilder.build(request, bullet);
+public Optional<HttpRequest> getRequest(HttpRequest request, String bullet){
+  try {
+    return Optional.of(RequestBuilder.build(request, bullet));
+  }
+  catch (UnsupportedOperationException e) {
+    api.logging().logToError(e);
+    api.logging().raiseErrorEvent(e.getMessage());
+    JOptionPane.showMessageDialog(this.api.userInterface().swingUtils().suiteFrame(), e.getMessage());
+    return Optional.empty();
+  }
 }
 
 }
