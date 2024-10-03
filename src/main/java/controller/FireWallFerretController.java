@@ -4,7 +4,7 @@ import burp.api.montoya.MontoyaApi;
 import burp.api.montoya.core.Registration;
 import burp.api.montoya.ui.contextmenu.InvocationType;
 import model.InsertPntProvider;
-import model.actionListeners.AddActionListener;
+import controller.actionListeners.AddBulletActionListener;
 import controller.actionListeners.InsertBulletActionListener;
 import view.FerretMenuProvider;
 import view.FerretSuiteTab;
