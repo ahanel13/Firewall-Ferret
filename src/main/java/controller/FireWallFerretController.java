@@ -85,7 +85,7 @@ private void registerMenuContext() {
     new InsertBulletActionListener(_api, _menuContext, replacingInvocationType));
   
   _menuContext.addActionListenerToAddItem(
-    new AddActionListener(_api, _menuContext, replacingInvocationType));
+    new AddBulletActionListener(_api, _menuContext, replacingInvocationType));
 }
 
 //-----------------------------------------------------------------------------
