@@ -1,4 +1,4 @@
-package model.actionListeners;
+package controller.actionListeners;
 
 import burp.api.montoya.MontoyaApi;
 import burp.api.montoya.http.message.requests.HttpRequest;
@@ -14,13 +14,13 @@ import java.util.List;
 import java.util.Optional;
 
 ////////////////////////////////////////
-// CLASS AddActionListener
+// CLASS InsertActionListener
 ////////////////////////////////////////
-public class AddActionListener extends AbstractListeners{
+public class InsertActionListener extends AbstractListeners{
 
 //-------------------------------------------------------------------------
-public AddActionListener(MontoyaApi montoyaApi, FerretMenuProvider context, List<InvocationType> type){
-  super(montoyaApi, context, type);
+public InsertActionListener(MontoyaApi api, FerretMenuProvider context, List<InvocationType> type){
+  super(api, context, type);
 }
 
 //-------------------------------------------------------------------------
@@ -32,23 +32,42 @@ public void actionPerformed(ActionEvent e){
   
   if(bulletSize <= 0) return; // !!! EXIT HERE !!!
   
-  Optional<MessageEditorHttpRequestResponse> reqRespEditor = menuContext.getReqRespEditor();
-  String      bullet     = BulletFactory.bullet(bulletSize);
-  HttpRequest contextReq = menuContext.getReqResp().request();
-  HttpRequest updatedReq = getRequest(contextReq, bullet);
   
-  if(_isEditorEvent() && reqRespEditor.isPresent()) // if event came from an editor then replace the request
-    reqRespEditor.get().setRequest(updatedReq);
+  Optional<MessageEditorHttpRequestResponse> reqRespEditor = menuContext.getReqRespEditor();
+  String      bullet = BulletFactory.bullet(bulletSize);
+  
+  HttpRequest req;
+  if(reqRespEditor.isPresent())
+    req = getRequest(reqRespEditor.get(), bullet);
+  else
+    throw new UnsupportedOperationException(
+      this.getClass().getName() + ":: Failed to find RequestResponseEditor");
+  
+  
+  if(_isEditorEvent()) // if event came from an editor then replace the request
+    reqRespEditor.get().setRequest(req);
   else // else if the event came from a viewer, then create a repeater tab
-    api.repeater().sendToRepeater(updatedReq);
+    api.repeater().sendToRepeater(req);
 }
 
 //-------------------------------------------------------------------------
-public HttpRequest getRequest(HttpRequest request, String bullet){
-  return RequestBuilder.build(request, bullet);
+public HttpRequest getRequest(MessageEditorHttpRequestResponse reqRespEditor, String bullet){
+  // if selection replace selection with bullet
+  if(reqRespEditor.selectionOffsets().isPresent()) {
+    return RequestBuilder.build(reqRespEditor.requestResponse().request(), bullet,
+      reqRespEditor.selectionOffsets().get()
+    );
+  }
+  //else if caret insert bullet
+  else {
+    return RequestBuilder.build(
+      reqRespEditor.requestResponse().request(),
+      bullet,
+      reqRespEditor.caretPosition());
+  }
 }
 
 }
 ////////////////////////////////////////
-// END CLASS AddActionListener
+// END CLASS InsertActionListener
 ////////////////////////////////////////
