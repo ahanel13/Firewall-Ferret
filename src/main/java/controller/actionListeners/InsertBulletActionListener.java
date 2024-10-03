@@ -16,10 +16,10 @@ import java.util.Optional;
 ////////////////////////////////////////
 // CLASS InsertActionListener
 ////////////////////////////////////////
-public class InsertActionListener extends AbstractListeners{
+public class InsertBulletActionListener extends AbstractListeners{
 
 //-------------------------------------------------------------------------
-public InsertActionListener(MontoyaApi api, FerretMenuProvider context, List<InvocationType> type){
+public InsertBulletActionListener(MontoyaApi api, FerretMenuProvider context, List<InvocationType> type){
   super(api, context, type);
 }
 

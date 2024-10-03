@@ -5,7 +5,7 @@ import burp.api.montoya.core.Registration;
 import burp.api.montoya.ui.contextmenu.InvocationType;
 import model.InsertPntProvider;
 import model.actionListeners.AddActionListener;
-import model.actionListeners.InsertActionListener;
+import controller.actionListeners.InsertBulletActionListener;
 import view.FerretMenuProvider;
 import view.FerretSuiteTab;
 
@@ -82,7 +82,7 @@ private void registerMenuContext() {
   _api.userInterface().registerContextMenuItemsProvider(_menuContext);
   
   _menuContext.addActionListenerToInsertItem(
-    new InsertActionListener(_api, _menuContext, replacingInvocationType));
+    new InsertBulletActionListener(_api, _menuContext, replacingInvocationType));
   
   _menuContext.addActionListenerToAddItem(
     new AddActionListener(_api, _menuContext, replacingInvocationType));
