@@ -33,7 +33,7 @@ public FireWallFerretController(
 ) {
   _api              = api;
   _menuContext      = menuContext;
-  _insPointProvider = new InsertPntProvider(List.of(8, 16, 32, 64, 128, 1024));
+  _insPointProvider = new InsertPntProvider(List.of(8, 16, 32, 64, 128, 1024), _api);
   _view             = view;
   
   registerMenuContext();
@@ -65,7 +65,7 @@ private void connectView2InsProvider(){
       List<Integer> bulletSizes = getBulletSizeList();
       
       _insProviderReg = _api.scanner()
-        .registerInsertionPointProvider(new InsertPntProvider(bulletSizes));
+        .registerInsertionPointProvider(new InsertPntProvider(bulletSizes, _api));
       
       _view.setMessage("Updating Scanner bullets to: " + bulletSizes);
     }
