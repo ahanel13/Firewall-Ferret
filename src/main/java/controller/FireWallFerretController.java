@@ -4,8 +4,8 @@ import burp.api.montoya.MontoyaApi;
 import burp.api.montoya.core.Registration;
 import burp.api.montoya.ui.contextmenu.InvocationType;
 import model.InsertPntProvider;
-import model.actionListeners.AddActionListener;
-import model.actionListeners.InsertActionListener;
+import controller.actionListeners.AddBulletActionListener;
+import controller.actionListeners.InsertBulletActionListener;
 import view.FerretMenuProvider;
 import view.FerretSuiteTab;
 
@@ -33,7 +33,7 @@ public FireWallFerretController(
 ) {
   _api              = api;
   _menuContext      = menuContext;
-  _insPointProvider = new InsertPntProvider(List.of(8, 16, 32, 64, 128, 1024));
+  _insPointProvider = new InsertPntProvider(List.of(8, 16, 32, 64, 128, 1024), _api);
   _view             = view;
   
   registerMenuContext();
@@ -65,7 +65,7 @@ private void connectView2InsProvider(){
       List<Integer> bulletSizes = getBulletSizeList();
       
       _insProviderReg = _api.scanner()
-        .registerInsertionPointProvider(new InsertPntProvider(bulletSizes));
+        .registerInsertionPointProvider(new InsertPntProvider(bulletSizes, _api));
       
       _view.setMessage("Updating Scanner bullets to: " + bulletSizes);
     }
@@ -82,10 +82,10 @@ private void registerMenuContext() {
   _api.userInterface().registerContextMenuItemsProvider(_menuContext);
   
   _menuContext.addActionListenerToInsertItem(
-    new InsertActionListener(_api, _menuContext, replacingInvocationType));
+    new InsertBulletActionListener(_api, _menuContext, replacingInvocationType));
   
   _menuContext.addActionListenerToAddItem(
-    new AddActionListener(_api, _menuContext, replacingInvocationType));
+    new AddBulletActionListener(_api, _menuContext, replacingInvocationType));
 }
 
 //-----------------------------------------------------------------------------

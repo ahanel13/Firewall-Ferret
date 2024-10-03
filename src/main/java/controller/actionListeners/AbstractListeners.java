@@ -1,4 +1,4 @@
-package model.actionListeners;
+package controller.actionListeners;
 
 import burp.api.montoya.MontoyaApi;
 import burp.api.montoya.ui.contextmenu.InvocationType;
