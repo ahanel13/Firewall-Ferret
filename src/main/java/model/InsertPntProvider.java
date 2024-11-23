@@ -13,9 +13,9 @@ import java.util.List;
 ////////////////////////////////////////
 public class InsertPntProvider implements AuditInsertionPointProvider{
 
-public InsertPntProvider(List<Integer> sizes, MontoyaApi api){
+public InsertPntProvider(List<Integer> sizes, MontoyaApi montoyaApi){
   bulletSizes = sizes;
-  this.api = api;
+  api         = montoyaApi;
 }
 
 @Override

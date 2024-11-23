@@ -68,8 +68,8 @@ private String            selectedSize;
 private JPanel createOptionsPanel() {
   JPanel optionsPanel = new JPanel();
   optionsPanel.setLayout(new BoxLayout(optionsPanel, BoxLayout.Y_AXIS));
-  
-  dropdown = createSizeDropdown();
+
+  dropdown        = createSizeDropdown();
   customSizeField = createCustomSizeField();
   customSizeLabel = createCustomSizeLabel();
   

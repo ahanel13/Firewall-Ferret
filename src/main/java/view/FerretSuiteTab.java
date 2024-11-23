@@ -239,23 +239,8 @@ private JScrollPane getTablePanel() {
   };
   
   // Create table model and table
-  DefaultTableModel model = new DefaultTableModel(data, columnNames);
-  JTable table = new JTable(model) {
-    @Override
-    public Class<?> getColumnClass(int column) {
-      return String.class;
-    }
-    
-    @Override
-    public boolean isCellEditable(int row, int column) {
-      return false; // Cells are not editable
-    }
-  };
-  
-  // Enable row selection
-  table.setCellSelectionEnabled(true);
-  table.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-  
+  JTable table = getjTable(data, columnNames);
+
   // Set column widths based on percentage of total table width
   final int totalWidth = 1000; // Assume a total table width of 1000 pixels
   table.getColumnModel().getColumn(0).setPreferredWidth((int) (totalWidth * 0.15)); // 15%
@@ -268,6 +253,26 @@ private JScrollPane getTablePanel() {
   return scrollPane;
 }
 
+//-----------------------------------------------------------------------------
+private static JTable getjTable(Object[][] data, String[] columnNames){
+  DefaultTableModel model = new DefaultTableModel(data, columnNames);
+  JTable table = new JTable(model) {
+    @Override
+    public Class<?> getColumnClass(int column) {
+      return String.class;
+    }
+
+    @Override
+    public boolean isCellEditable(int row, int column) {
+      return false; // Cells are not editable
+    }
+  };
+
+  // Enable row selection
+  table.setCellSelectionEnabled(true);
+  table.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+  return table;
+}
 
 
 }

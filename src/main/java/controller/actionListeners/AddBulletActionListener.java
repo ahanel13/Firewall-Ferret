@@ -32,16 +32,18 @@ public void actionPerformed(ActionEvent e){
   int bulletSize = dialog.getByteSize();
   
   if(bulletSize <= 0) return; // !!! EXIT HERE !!!
-  
+
   Optional<MessageEditorHttpRequestResponse> reqRespEditor = menuContext.getReqRespEditor();
-  String      bullet     = BulletFactory.bullet(bulletSize);
-  HttpRequest           contextReq = menuContext.getReqResp().request();
-  Optional<HttpRequest> updatedReq = getRequest(contextReq, bullet);
+  String                                     bullet        = BulletFactory.bullet(bulletSize);
+  HttpRequest                                contextReq    = menuContext.getReqResp().request();
+  Optional<HttpRequest>                      updatedReq    = getRequest(contextReq, bullet);
 
   if(updatedReq.isPresent()){
-    if(_isEditorEvent() && reqRespEditor.isPresent()) // if event came from an editor then replace the request
+    // if event came from an editor then replace the request
+    if(_isEditorEvent() && reqRespEditor.isPresent())
       reqRespEditor.get().setRequest(updatedReq.orElse(null));
-    else // else if the event came from a viewer, then create a repeater tab
+    // else if the event came from a viewer, then create a repeater tab
+    else
       api.repeater().sendToRepeater(updatedReq.orElse(null));
   }
 }

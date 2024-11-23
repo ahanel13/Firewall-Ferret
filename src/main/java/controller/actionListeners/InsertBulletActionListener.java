@@ -52,13 +52,13 @@ public void actionPerformed(ActionEvent e){
 
 //-------------------------------------------------------------------------
 public HttpRequest getRequest(MessageEditorHttpRequestResponse reqRespEditor, String bullet){
-  // if selection replace selection with bullet
+  // if selection then replace selection with bullet
   if(reqRespEditor.selectionOffsets().isPresent()) {
     return RequestBuilder.build(reqRespEditor.requestResponse().request(), bullet,
       reqRespEditor.selectionOffsets().get()
     );
   }
-  //else if caret insert bullet
+  //else if caret then insert bullet
   else {
     return RequestBuilder.build(
       reqRespEditor.requestResponse().request(),
