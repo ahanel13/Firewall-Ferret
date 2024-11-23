@@ -2,7 +2,13 @@ package model.creators;
 
 import burp.api.montoya.core.Range;
 import burp.api.montoya.http.message.ContentType;
+import burp.api.montoya.http.message.params.HttpParameter;
+import burp.api.montoya.http.message.params.HttpParameterType;
+import burp.api.montoya.http.message.params.ParsedHttpParameter;
 import burp.api.montoya.http.message.requests.HttpRequest;
+
+import java.util.ArrayList;
+import java.util.List;
 
 ////////////////////////////////////////
 // CLASS RequestBuilder
@@ -26,7 +32,8 @@ public static HttpRequest build(HttpRequest request, String bullet, int caretPos
 //-----------------------------------------------------------------------------
 public static HttpRequest build(HttpRequest request, String bullet) {
   ContentType type = request.contentType();
-  
+
+  //todo: what should happen when there is a body and url parameters?
   switch(type){
   case URL_ENCODED -> {return addBodyParam(request, bullet);}
   case JSON        -> {return addJsonParam(request, bullet);}
@@ -34,9 +41,32 @@ public static HttpRequest build(HttpRequest request, String bullet) {
   case MULTIPART   -> {return addMultiPartParam(request, bullet);}
   case AMF         -> {return padAmfWith(request, bullet);}
   case UNKNOWN     -> {return bestEffort(request, bullet);}
+  case NONE        -> {return addUrlParam(request, bullet);}
   default          ->
     throw new UnsupportedOperationException("Burp was unable to identify a content type");
   }
+}
+
+//-----------------------------------------------------------------------------
+private static HttpRequest addUrlParam(HttpRequest request, String bullet){
+  int paramLen = "bullet=".length();
+  HttpParameter urlParam = HttpParameter.urlParameter(
+      "bullet", bullet.substring(0, bullet.length() - paramLen + 1));
+
+  // extract all URL parameters as a list
+  List<ParsedHttpParameter> parsedParams = request.parameters(HttpParameterType.URL);
+
+  // remove the parameters from the request
+  request = request.withRemovedParameters(parsedParams);
+
+  // convert ParsedHttpParameter to HttpParameter
+  List<HttpParameter> params = new ArrayList<>(parsedParams.size() + 1);
+  parsedParams.forEach(p -> params.add(HttpParameter.urlParameter(p.name(), p.value())));
+
+  // append the `urlParam` to beginning of the list
+  params.add(0, urlParam);
+
+  return request.withAddedParameters(params);
 }
 
 //-----------------------------------------------------------------------------
@@ -130,6 +160,7 @@ private static HttpRequest padAmfWith(HttpRequest request, String bullet) {
 
 //-----------------------------------------------------------------------------
 private static HttpRequest bestEffort(HttpRequest request, String bullet) {
+  //todo: is this the best way to handle this?
   String strBody = request.bodyToString();
   return request.withBody(bullet.concat(strBody));
 }
