@@ -225,7 +225,7 @@ private JScrollPane getTablePanel() {
       "https://docs.aws.amazon.com/waf/latest/developerguide/waf-oversize-request-components.html"},
     {"Azure WAF", "128 KB - 4 GB (configurable depending on service & rule set version)",
       "https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/azure-subscription-service-limits#application-gateway-limits"},
-    {"Akamai", "8 KB, 1 KB, 32 KB",
+    {"Akamai", "8 KB, 16 KB, 32 KB",
       "https://techdocs.akamai.com/application-security/reference/put-advanced-settings-request-body"},
     {"Fortiweb by Fortinet", "0 MB - 200 MB (configurable)",
       "https://help.fortinet.com/fweb/582/Content/FortiWeb/fortiweb-admin/limit_file_uploads.htm"},
