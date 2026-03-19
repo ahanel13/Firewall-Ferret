@@ -64,7 +64,7 @@ private static HttpRequest addJsonParam(HttpRequest request, String bullet) {
     String append  = "\",";
     StringBuilder payload = new StringBuilder();
     payload.append(prepend);
-    payload.append(bullet, 0, bullet.length() - prepend.length() + append.length());
+    payload.append(bullet);
     payload.append(append);
     payload.append(strBody, 1, strBody.length()); // skipping starting '['
 
@@ -75,7 +75,7 @@ private static HttpRequest addJsonParam(HttpRequest request, String bullet) {
     String append  = "\",";
     StringBuilder payload = new StringBuilder();
     payload.append(prepend);
-    payload.append(bullet, 0, bullet.length() - prepend.length() + append.length());
+    payload.append(bullet);
     payload.append(append);
     payload.append(strBody, 1, strBody.length()); // skipping starting '{'
 
@@ -87,7 +87,7 @@ private static HttpRequest addJsonParam(HttpRequest request, String bullet) {
     String append  = "}";
     StringBuilder payload = new StringBuilder();
     payload.append(prepend);
-    payload.append(bullet, 0, bullet.length() - prepend.length() + middle.length() + append.length());
+    payload.append(bullet);
     payload.append(middle);
     payload.append(strBody);
     payload.append(append);
