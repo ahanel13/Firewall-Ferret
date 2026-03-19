@@ -55,17 +55,45 @@ private static HttpRequest addBodyParam(HttpRequest request, String bullet) {
 
 //-----------------------------------------------------------------------------
 private static HttpRequest addJsonParam(HttpRequest request, String bullet) {
-  String prepend = "{\"bullet\": \"";
-  String append  = "\",";
-  StringBuilder payload = new StringBuilder();
-  payload.append(prepend);
-  payload.append(bullet, 0, bullet.length() - prepend.length() + append.length());
-  payload.append(append);
-  
-  String strBody = request.bodyToString();
-  payload.append(strBody, 1, strBody.length()); // skipping starting '{'
-  
-  return request.withBody(payload.toString());
+  String strBody = request.bodyToString().trim();
+
+  // Check if the JSON body is an array or object
+  if (strBody.startsWith("[")) {
+    // For JSON arrays, prepend a new array element with the bullet
+    String prepend = "[\"";
+    String append  = "\",";
+    StringBuilder payload = new StringBuilder();
+    payload.append(prepend);
+    payload.append(bullet, 0, bullet.length() - prepend.length() + append.length());
+    payload.append(append);
+    payload.append(strBody, 1, strBody.length()); // skipping starting '['
+
+    return request.withBody(payload.toString());
+  } else if (strBody.startsWith("{")) {
+    // For JSON objects, add a new property
+    String prepend = "{\"bullet\": \"";
+    String append  = "\",";
+    StringBuilder payload = new StringBuilder();
+    payload.append(prepend);
+    payload.append(bullet, 0, bullet.length() - prepend.length() + append.length());
+    payload.append(append);
+    payload.append(strBody, 1, strBody.length()); // skipping starting '{'
+
+    return request.withBody(payload.toString());
+  } else {
+    // For other JSON types (string, number, boolean, null), wrap in an object
+    String prepend = "{\"bullet\": \"";
+    String middle  = "\", \"value\": ";
+    String append  = "}";
+    StringBuilder payload = new StringBuilder();
+    payload.append(prepend);
+    payload.append(bullet, 0, bullet.length() - prepend.length() + middle.length() + append.length());
+    payload.append(middle);
+    payload.append(strBody);
+    payload.append(append);
+
+    return request.withBody(payload.toString());
+  }
 }
 
 //-----------------------------------------------------------------------------
@@ -123,9 +151,13 @@ private static String extractBoundary(String request) {
 
 //-----------------------------------------------------------------------------
 private static HttpRequest padAmfWith(HttpRequest request, String bullet) {
-  throw new UnsupportedOperationException(
-      "AMF Padding in not yet supported. See https://github.com/ahanel13/Firewall-Ferret/issues/1" +
-          " for more information and or to contribute to the project.");
+  // AMF (Action Message Format) is a binary format used by Flash/Flex applications.
+  // Since modifying the AMF structure directly is complex and requires parsing,
+  // we use a simple approach: prepend the bullet as padding before the AMF content.
+  // This allows the WAF to consume the padding while leaving the AMF structure intact.
+
+  String strBody = request.bodyToString();
+  return request.withBody(bullet.concat(strBody));
 }
 
 //-----------------------------------------------------------------------------

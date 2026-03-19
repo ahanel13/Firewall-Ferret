@@ -1,8 +1,10 @@
 # Firewall Ferret
-This java project was created with Portswigger's Montoya API to be a 
+This java project was created with Portswigger's Montoya API to be a
 Burp Extension. It's well known that WAFs only scan up to a certain amount of data
-per request. This extension allows a tester to manually insert junk data and 
-adds junk data to Active Scans by duplicating each scan check. 
+per request. This extension allows a tester to manually insert junk data and
+adds junk data to Active Scans by duplicating each scan check.
+
+**Updated for Burp Suite 2026.2 with Montoya API 2026.2** 
 
 ---
 
@@ -21,17 +23,16 @@ adds junk data to Active Scans by duplicating each scan check.
 This extension provides a few functionalities.
 1. The option to manually insert a bullet of X Kilobyte
 2. The option to allow the extension to add a parameter of bullet of X Kilobyte
-   1. The following requests are supported: URL-Encoded Body, JSON, XML, Multipart
-   2. The following requests are a work in progress: AMF
-   3. If the request's content type of unknown to Burp, then the extension will 
+   1. The following requests are supported: URL-Encoded Body, JSON (including arrays), XML, Multipart, AMF
+   2. If the request's content type is unknown to Burp, then the extension will
    append the entire body with a bullet.
 3. Adds a check for every burp active scan check. The check will take the standard
-payload and prepend a bullet of the following sizes: `8, 16, 32, 64, 128, 1024`. 
+payload and prepend a bullet of the following sizes: `8, 16, 32, 64, 128, 1024`.
 This should lead to better scan results since most applications have WAFs in front.
 
 ## How to Use the Different Functionalities
-### Automatic Insert 
-The automatic insert works for requests URL-Encoded, JSON, XML, Multipart bodies. 
+### Automatic Insert
+The automatic insert works for requests with URL-Encoded, JSON (objects and arrays), XML, Multipart, and AMF bodies.
 The bullet will be added as the first argument in the request.
 
 **Auto Add Examples**
