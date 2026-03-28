@@ -42,7 +42,11 @@ public List<Component> provideMenuItems(ContextMenuEvent event) {
     _reqResp = optional.get().requestResponse();
   }
   else {
-    _reqResp = event.selectedRequestResponses().get(0);
+    List<HttpRequestResponse> selected = event.selectedRequestResponses();
+    if (selected.isEmpty()) {
+      return menuItemList;
+    }
+    _reqResp = selected.get(0);
   }
   
   menuItemList.add(_addWafBullet);
