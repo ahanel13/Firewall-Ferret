@@ -40,10 +40,14 @@ public int getByteSize() {
   if (selectedSize == null) {
     return -1;
   }
-  if (selectedSize.endsWith("KB")) {
-    return Integer.parseInt(selectedSize.split(" ")[0]) * 1024;
-  } else {
-    return Integer.parseInt(selectedSize);
+  try {
+    if (selectedSize.endsWith("KB")) {
+      return Integer.parseInt(selectedSize.split(" ")[0]) * 1024;
+    } else {
+      return Integer.parseInt(selectedSize);
+    }
+  } catch (NumberFormatException e) {
+    return -1;
   }
 }
 
