@@ -42,15 +42,9 @@ public static HttpRequest build(HttpRequest request, String bullet) {
 //-----------------------------------------------------------------------------
 private static HttpRequest addBodyParam(HttpRequest request, String bullet) {
   String param = "bullet=";
-  StringBuilder payload = new StringBuilder();
-  payload.append(param);
-  payload.append(bullet, 0, bullet.length() - param.length() + 1);
-  payload.append("&");
-  
-  String strBody = request.bodyToString();
-  payload.append(strBody);
-  
-  return request.withBody(payload.toString());
+  String sep   = "&";
+  int trimLen  = Math.max(0, bullet.length() - param.length() - sep.length());
+  return request.withBody(param + bullet.substring(0, trimLen) + sep + request.bodyToString());
 }
 
 //-----------------------------------------------------------------------------
