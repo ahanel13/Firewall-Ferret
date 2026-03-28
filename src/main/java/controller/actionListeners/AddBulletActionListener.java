@@ -40,9 +40,9 @@ public void actionPerformed(ActionEvent e){
 
   if(updatedReq.isPresent()){
     if(_isEditorEvent() && reqRespEditor.isPresent()) // if event came from an editor then replace the request
-      reqRespEditor.get().setRequest(updatedReq.orElse(null));
+      reqRespEditor.get().setRequest(updatedReq.get());
     else // else if the event came from a viewer, then create a repeater tab
-      api.repeater().sendToRepeater(updatedReq.orElse(null));
+      api.repeater().sendToRepeater(updatedReq.get());
   }
 }
 
