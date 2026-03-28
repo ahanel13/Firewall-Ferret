@@ -34,24 +34,24 @@ public List<Component> provideMenuItems(ContextMenuEvent event) {
   Optional<MessageEditorHttpRequestResponse> optional     = event.messageEditorRequestResponse();
   List<Component>                            menuItemList = new ArrayList<>();
   
+  HttpRequestResponse reqResp;
   if(
     optional.isPresent() &&
     optional.get().selectionContext().equals(MessageEditorHttpRequestResponse.SelectionContext.REQUEST)
   ) {
     menuItemList.add(_insertWafBullet);
-    _reqResp = optional.get().requestResponse();
+    reqResp = optional.get().requestResponse();
   }
   else {
     List<HttpRequestResponse> selected = event.selectedRequestResponses();
     if (selected.isEmpty()) {
       return menuItemList;
     }
-    _reqResp = selected.get(0);
+    reqResp = selected.get(0);
   }
-  
+
   menuItemList.add(_addWafBullet);
-  _reqRespEditor = optional;
-  _event         = event;
+  _snapshot = new MenuSnapshot(optional, reqResp, event);
   
   return menuItemList;
 }
@@ -68,17 +68,17 @@ public void addActionListenerToAddItem(ActionListener l){
 
 //-----------------------------------------------------------------------------
 public Optional<MessageEditorHttpRequestResponse> getReqRespEditor() {
-  return _reqRespEditor;
+  return _snapshot.reqRespEditor();
 }
 
 //-----------------------------------------------------------------------------
 public HttpRequestResponse getReqResp() {
-  return _reqResp;
+  return _snapshot.reqResp();
 }
 
 //-----------------------------------------------------------------------------
 public ContextMenuEvent getEvent() {
-  return _event;
+  return _snapshot.event();
 }
 
 ////////////////////////////////////////
@@ -87,9 +87,13 @@ public ContextMenuEvent getEvent() {
 private final JMenuItem _insertWafBullet;
 private final JMenuItem _addWafBullet;
 
-private Optional<MessageEditorHttpRequestResponse> _reqRespEditor;
-private ContextMenuEvent                 _event;
-private HttpRequestResponse              _reqResp;
+private record MenuSnapshot(
+  Optional<MessageEditorHttpRequestResponse> reqRespEditor,
+  HttpRequestResponse                        reqResp,
+  ContextMenuEvent                           event
+) {}
+
+private MenuSnapshot _snapshot;
 
 }
 ////////////////////////////////////////
