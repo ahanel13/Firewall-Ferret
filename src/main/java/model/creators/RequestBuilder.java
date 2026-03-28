@@ -100,7 +100,7 @@ private static HttpRequest addXmlParam(HttpRequest request, String bullet) {
 
 //-----------------------------------------------------------------------------
 private static HttpRequest addMultiPartParam(HttpRequest request, String bullet) {
-  String boundary   = extractBoundary(request.toString());
+  String boundary   = extractBoundary(request);
   String partOpen   = "--" + boundary + "\r\n";
   String partHeader = "Content-Disposition: form-data; name=\"bullet\"\r\n\r\n";
   String partClose  = "\r\n";
@@ -110,13 +110,13 @@ private static HttpRequest addMultiPartParam(HttpRequest request, String bullet)
 }
 
 //-----------------------------------------------------------------------------
-private static String extractBoundary(String request) {
-  String contentTypeHeader = "Content-Type: multipart/form-data; boundary=";
-  int boundaryIndex = request.indexOf(contentTypeHeader);
-  if (boundaryIndex != -1) {
-    int start = boundaryIndex + contentTypeHeader.length();
-    int end = request.indexOf("\r\n", start);
-    return request.substring(start, end);
+private static String extractBoundary(HttpRequest request) {
+  String contentType = request.headerValue("Content-Type");
+  if (contentType != null) {
+    int idx = contentType.indexOf("boundary=");
+    if (idx != -1) {
+      return contentType.substring(idx + "boundary=".length());
+    }
   }
   throw new IllegalArgumentException("Boundary not found in the request.");
 }
