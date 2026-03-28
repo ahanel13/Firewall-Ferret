@@ -100,14 +100,12 @@ private static HttpRequest addXmlParam(HttpRequest request, String bullet) {
 
 //-----------------------------------------------------------------------------
 private static HttpRequest addMultiPartParam(HttpRequest request, String bullet) {
-  // Extract the boundary
-  String boundary = extractBoundary(request.toString());
-  
-  // Create the new parameter part
-  String newParameterPart = "--" + boundary + "\r\n" +
-    "Content-Disposition: form-data; name=\"bullet\"\r\n\r\n" +
-    bullet + "\r\n";
-  
+  String boundary   = extractBoundary(request.toString());
+  String partOpen   = "--" + boundary + "\r\n";
+  String partHeader = "Content-Disposition: form-data; name=\"bullet\"\r\n\r\n";
+  String partClose  = "\r\n";
+  int trimLen = Math.max(0, bullet.length() - partOpen.length() - partHeader.length() - partClose.length());
+  String newParameterPart = partOpen + partHeader + bullet.substring(0, trimLen) + partClose;
   return request.withBody(newParameterPart + request.bodyToString());
 }
 
