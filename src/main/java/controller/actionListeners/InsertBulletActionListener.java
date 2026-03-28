@@ -36,12 +36,11 @@ public void actionPerformed(ActionEvent e){
   Optional<MessageEditorHttpRequestResponse> reqRespEditor = menuContext.getReqRespEditor();
   String      bullet = BulletFactory.bullet(bulletSize);
   
-  HttpRequest req;
-  if(reqRespEditor.isPresent())
-    req = getRequest(reqRespEditor.get(), bullet);
-  else
-    throw new UnsupportedOperationException(
-      this.getClass().getName() + ":: Failed to find RequestResponseEditor");
+  if(reqRespEditor.isEmpty()) {
+    api.logging().logToError(this.getClass().getName() + ": no editor context available");
+    return;
+  }
+  HttpRequest req = getRequest(reqRespEditor.get(), bullet);
   
   
   if(_isEditorEvent()) // if event came from an editor then replace the request
