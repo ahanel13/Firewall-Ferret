@@ -37,3 +37,7 @@ build/
 
 ### Mac OS ###
 .DS_Store
+
+### Local ###
+TODO.md
+CLAUDE.md
