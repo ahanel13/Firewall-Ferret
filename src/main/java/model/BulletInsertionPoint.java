@@ -38,7 +38,7 @@ public String baseValue(){
 //-----------------------------------------------------------------------------
 @Override
 public HttpRequest buildHttpRequestWithPayload(ByteArray payload){
-  HttpRequest updatedReq = null;
+  HttpRequest updatedReq = _request;
   try {
     updatedReq = RequestBuilder.build(_request, _baseValue.concat(payload.toString()));
   }
