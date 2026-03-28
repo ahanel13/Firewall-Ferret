@@ -11,7 +11,7 @@ public static void main(String[] args) {
   SwingUtilities.invokeLater(() -> {
     JFrame frame = new JFrame("Ferret Suite Tab Test");
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    frame.add(new FerretSuiteTab(null));
+    frame.add(new FerretSuiteTab());
     frame.pack();
     frame.setLocationRelativeTo(null); // Center the frame on the screen
     frame.setVisible(true);

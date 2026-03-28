@@ -1,7 +1,5 @@
 package view;
 
-import burp.api.montoya.logging.Logging;
-
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -23,9 +21,8 @@ public class FerretSuiteTab extends JPanel {
 ////////////////////////////////////////
 // PUBLIC METHODS
 ////////////////////////////////////////
-public FerretSuiteTab(Logging logger) {
+public FerretSuiteTab() {
   super(new GridBagLayout());
-  _logger = logger;
   JPanel      info       = getAppInfo();
   JPanel      settings   = getSettingsPanel();
   JScrollPane tablePanel = getTablePanel();
@@ -122,8 +119,6 @@ public void setMessage(String message) {
 ////////////////////////////////////////
 // PRIVATE FIELDS
 ////////////////////////////////////////
-private final Logging _logger;
-
 private JTextField customSizeTextField;
 private JCheckBox  checkBox8kb;
 private JCheckBox  checkBox16kb;
