@@ -55,17 +55,26 @@ private static HttpRequest addBodyParam(HttpRequest request, String bullet) {
 
 //-----------------------------------------------------------------------------
 private static HttpRequest addJsonParam(HttpRequest request, String bullet) {
-  String prepend = "{\"bullet\": \"";
-  String append  = "\",";
-  StringBuilder payload = new StringBuilder();
-  payload.append(prepend);
-  payload.append(bullet, 0, bullet.length() - prepend.length() + append.length());
-  payload.append(append);
-  
-  String strBody = request.bodyToString();
-  payload.append(strBody, 1, strBody.length()); // skipping starting '{'
-  
-  return request.withBody(payload.toString());
+  String strBody = request.bodyToString().trim();
+
+  if (strBody.startsWith("{")) {
+    // JSON object: insert bullet as first property
+    String prepend = "{\"bullet\": \"";
+    String append  = "\",";
+    int trimLen = Math.max(0, bullet.length() - prepend.length() - append.length());
+    return request.withBody(prepend + bullet.substring(0, trimLen) + append + strBody.substring(1));
+  }
+  else if (strBody.startsWith("[")) {
+    // JSON array: insert bullet as first element
+    String prepend = "[\"";
+    String append  = "\",";
+    int trimLen = Math.max(0, bullet.length() - prepend.length() - append.length());
+    return request.withBody(prepend + bullet.substring(0, trimLen) + append + strBody.substring(1));
+  }
+  else {
+    // Unknown JSON shape — best effort: prepend raw
+    return bestEffort(request, bullet);
+  }
 }
 
 //-----------------------------------------------------------------------------
