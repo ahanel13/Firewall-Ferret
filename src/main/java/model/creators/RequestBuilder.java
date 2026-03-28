@@ -75,9 +75,8 @@ private static HttpRequest addJsonParam(HttpRequest request, String bullet) {
 private static HttpRequest addXmlParam(HttpRequest request, String bullet) {
   String prepend = "<!--";
   String append  = "-->";
-  String payload = prepend +
-    bullet.substring(0, bullet.length() - prepend.length() + 3) +
-    append;
+  int trimLen    = Math.max(0, bullet.length() - prepend.length() - append.length());
+  String payload = prepend + bullet.substring(0, trimLen) + append;
   
   String xml = request.bodyToString();
   
