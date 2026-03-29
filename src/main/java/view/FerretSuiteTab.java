@@ -138,9 +138,11 @@ private JLabel     messageLabel;
 ////////////////////////////////////////
 //-----------------------------------------------------------------------------
 private JPanel getAppInfo() {
+  String version = FerretSuiteTab.class.getPackage().getImplementationVersion();
+  if (version == null) version = "dev";
   JEditorPane info = new JEditorPane("text/html",
     "<html><body style='font-family:sans-serif'>" +
-    "<h2 style='margin:0'>Firewall Ferret v1.2.1</h2>" +
+    "<h2 style='margin:0'>Firewall Ferret v" + version + "</h2>" +
     "<p style='margin:4px 0'>Bypass WAFs by prepending configurable junk data to HTTP requests.</p>" +
     "<p style='margin:4px 0'><b>Author:</b> <a href='https://anthonyhanel.me/'>Anthony Hanel</a></p>" +
     "<p style='margin:4px 0'><b>GitHub:</b> <a href='https://github.com/ahanel13/Firewall-Ferret'>github.com/ahanel13/Firewall-Ferret</a></p>" +
