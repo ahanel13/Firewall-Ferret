@@ -247,23 +247,26 @@ private JScrollPane getTablePanel() {
   
   // Define table data with raw URLs
   Object[][] data = {
-    {"Cloudflare", "128 KB for ruleset engine, up to 100 - 500 MB depending on the plan",
-      "https://developers.cloudflare.com/ruleset-engine/rules-language/fields/#http-request-body-fields"},
-    {"AWS WAF", "8 KB - 64 KB (configurable depending on service)",
-      "https://docs.aws.amazon.com/waf/latest/developerguide/waf-oversize-request-components.html"},
-    {"Azure WAF", "128 KB - 4 GB (configurable depending on service & rule set version)",
-      "https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/azure-subscription-service-limits#application-gateway-limits"},
-    {"Akamai", "8 KB, 16 KB, 32 KB",
+    {"Cloudflare", "128 KB (Enterprise); up to 1 MB (paid plans, via Support). Dec 2025 rollout to 1 MB was reversed due to false positives.",
+      "https://developers.cloudflare.com/changelog/2025-12-05-waf-max-payload-size-change/"},
+    {"AWS WAF", "16 KB default (CloudFront/API GW/Cognito); 8 KB fixed (ALB/AppSync). Configurable 16–64 KB in 16 KB steps where supported.",
+      "https://docs.aws.amazon.com/waf/latest/developerguide/web-acl-setting-body-inspection-limit.html"},
+    {"Azure WAF", "App Gateway: 128 KB (CRS 3.1), up to 2 MB (CRS 3.2+). Front Door: fixed 128 KB.",
+      "https://learn.microsoft.com/en-us/azure/web-application-firewall/ag/application-gateway-waf-request-size-limits"},
+    {"Akamai", "8 KB default. Configurable to 8, 16, or 32 KB via account team.",
       "https://techdocs.akamai.com/application-security/reference/put-advanced-settings-request-body"},
-    {"Fortiweb by Fortinet", "0 MB - 200 MB (configurable)",
-      "https://help.fortinet.com/fweb/582/Content/FortiWeb/fortiweb-admin/limit_file_uploads.htm"},
-    {"F5 BIG-IP WAAP", "1 KB (configurable)",
-      "https://clouddocs.f5.com/bigip-next/20-2-0/waf_management/cm_awaf_manage_edit_policy.html"},
-    {"Palo Alto", "_Unknown_", ""},
-    {"Barracuda WAF", "_Unknown_", ""},
-    {"Radware AppWall", "30 KB - 20 KB",
-      "https://portals.radware.com/releasenotes/appwall_release_notes_7_6_14/index.html#page/AppWall_Release_Notes_7_6_14/AppWall_7614-RN%20-%20final.1.09.html#wwconnect_header"},
-    {"Sucuri", "_Unknown_", ""}
+    {"Fortiweb by Fortinet", "Hardware-dependent default. Configurable 0–65,536 KB (0 = unlimited) via max-http-body-length CLI parameter.",
+      "https://docs.fortinet.com/document/fortiweb/7.6.4/administration-guide/277489/http-https-protocol-constraints"},
+    {"F5 BIG-IP WAAP", "On-prem ASM: ~10 MB default (policy-configurable). Distributed Cloud WAF: 64 KB inspection limit.",
+      "https://my.f5.com/manage/s/article/K11434152"},
+    {"Palo Alto (Prisma Cloud WAAS)", "Not published. Configurable per policy via inspectionSizeBytes parameter.",
+      "https://docs.prismacloud.io/en/compute-edition/32/admin-guide/waas/waas-app-firewall"},
+    {"Barracuda WAF", "Unlimited by default (empty = no limit). Configurable 0–8,388,608 bytes (~8 MB). Chunked encoding bypasses Content-Length check.",
+      "https://campus.barracuda.com/product/webapplicationfirewall/doc/4259870/configuring-request-limits/"},
+    {"Radware AppWall", "1 MB (GUI layer). Configurable via JS config file. Fast Upload (>3 MB) bypasses body inspection.",
+      "https://support.radware.com/app/answers/answer_view/a_id/1020912/~/appwall-error:-413-payload-too-large"},
+    {"Sucuri", "~1.25 MB (internally managed, not user-configurable).",
+      "https://labs.sucuri.net/signatures/waf/up010-upload-size-restricted-by-the-administrator/"}
   };
   
   // Create table model and table
