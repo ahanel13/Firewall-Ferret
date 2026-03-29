@@ -140,17 +140,25 @@ private JLabel     messageLabel;
 private JPanel getAppInfo() {
   String version = FerretSuiteTab.class.getPackage().getImplementationVersion();
   if (version == null) version = "dev";
-  JEditorPane info = new JEditorPane("text/html",
+
+  JEditorPane left = new JEditorPane("text/html",
     "<html><body style='font-family:sans-serif'>" +
     "<h2 style='margin:0'>Firewall Ferret v" + version + "</h2>" +
     "<p style='margin:4px 0'>Bypass WAFs by prepending configurable junk data to HTTP requests.</p>" +
+    "</body></html>"
+  );
+  left.setEditable(false);
+  left.setOpaque(false);
+
+  JEditorPane right = new JEditorPane("text/html",
+    "<html><body style='font-family:sans-serif; text-align:right'>" +
     "<p style='margin:4px 0'><b>Author:</b> <a href='https://anthonyhanel.me/'>Anthony Hanel</a></p>" +
     "<p style='margin:4px 0'><b>GitHub:</b> <a href='https://github.com/ahanel13/Firewall-Ferret'>github.com/ahanel13/Firewall-Ferret</a></p>" +
     "</body></html>"
   );
-  info.setEditable(false);
-  info.setOpaque(false);
-  info.addHyperlinkListener(e -> {
+  right.setEditable(false);
+  right.setOpaque(false);
+  right.addHyperlinkListener(e -> {
     if (e.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
       try { Desktop.getDesktop().browse(e.getURL().toURI()); }
       catch (Exception ignored) {}
@@ -158,7 +166,8 @@ private JPanel getAppInfo() {
   });
 
   JPanel panel = new JPanel(new BorderLayout());
-  panel.add(info, BorderLayout.CENTER);
+  panel.add(left,  BorderLayout.WEST);
+  panel.add(right, BorderLayout.EAST);
   return panel;
 }
 
