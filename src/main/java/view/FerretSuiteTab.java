@@ -1,12 +1,16 @@
 package view;
 
 import javax.swing.JCheckBox;
+import javax.swing.JEditorPane;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.event.HyperlinkEvent;
 import javax.swing.table.DefaultTableModel;
+import java.awt.BorderLayout;
+import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -134,8 +138,26 @@ private JLabel     messageLabel;
 ////////////////////////////////////////
 //-----------------------------------------------------------------------------
 private JPanel getAppInfo() {
-  // todo
-  return new JPanel();
+  JEditorPane info = new JEditorPane("text/html",
+    "<html><body style='font-family:sans-serif'>" +
+    "<h2 style='margin:0'>Firewall Ferret v1.2.1</h2>" +
+    "<p style='margin:4px 0'>Bypass WAFs by prepending configurable junk data to HTTP requests.</p>" +
+    "<p style='margin:4px 0'><b>Author:</b> <a href='https://anthonyhanel.me/'>Anthony Hanel</a></p>" +
+    "<p style='margin:4px 0'><b>GitHub:</b> <a href='https://github.com/ahanel13/Firewall-Ferret'>github.com/ahanel13/Firewall-Ferret</a></p>" +
+    "</body></html>"
+  );
+  info.setEditable(false);
+  info.setOpaque(false);
+  info.addHyperlinkListener(e -> {
+    if (e.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
+      try { Desktop.getDesktop().browse(e.getURL().toURI()); }
+      catch (Exception ignored) {}
+    }
+  });
+
+  JPanel panel = new JPanel(new BorderLayout());
+  panel.add(info, BorderLayout.CENTER);
+  return panel;
 }
 
 //-----------------------------------------------------------------------------
