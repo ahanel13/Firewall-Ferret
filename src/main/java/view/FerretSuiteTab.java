@@ -8,14 +8,22 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.event.HyperlinkEvent;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Cursor;
 import java.awt.Desktop;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.net.URI;
 
 ////////////////////////////////////////
 // CLASS FerretSuiteTab
@@ -242,60 +250,89 @@ private JPanel getSettingsPanel() {
 
 //-----------------------------------------------------------------------------
 private JScrollPane getTablePanel() {
-  // Define column names
-  String[] columnNames = {"WAF Provider", "Maximum Request Body Inspection Size Limit", "Sources"};
-  
-  // Define table data with raw URLs
-  Object[][] data = {
-    {"Cloudflare", "128 KB (Enterprise); up to 1 MB (paid plans, via Support). Dec 2025 rollout to 1 MB was reversed due to false positives.",
-      "https://developers.cloudflare.com/changelog/2025-12-05-waf-max-payload-size-change/"},
-    {"AWS WAF", "16 KB default (CloudFront/API GW/Cognito); 8 KB fixed (ALB/AppSync). Configurable 16–64 KB in 16 KB steps where supported.",
-      "https://docs.aws.amazon.com/waf/latest/developerguide/web-acl-setting-body-inspection-limit.html"},
-    {"Azure WAF", "App Gateway: 128 KB (CRS 3.1), up to 2 MB (CRS 3.2+). Front Door: fixed 128 KB.",
-      "https://learn.microsoft.com/en-us/azure/web-application-firewall/ag/application-gateway-waf-request-size-limits"},
-    {"Akamai", "8 KB default. Configurable to 8, 16, or 32 KB via account team.",
-      "https://techdocs.akamai.com/application-security/reference/put-advanced-settings-request-body"},
-    {"Fortiweb by Fortinet", "Hardware-dependent default. Configurable 0–65,536 KB (0 = unlimited) via max-http-body-length CLI parameter.",
-      "https://docs.fortinet.com/document/fortiweb/7.6.4/administration-guide/277489/http-https-protocol-constraints"},
-    {"F5 BIG-IP WAAP", "On-prem ASM: ~10 MB default (policy-configurable). Distributed Cloud WAF: 64 KB inspection limit.",
-      "https://my.f5.com/manage/s/article/K11434152"},
-    {"Palo Alto (Prisma Cloud WAAS)", "Not published. Configurable per policy via inspectionSizeBytes parameter.",
-      "https://docs.prismacloud.io/en/compute-edition/32/admin-guide/waas/waas-app-firewall"},
-    {"Barracuda WAF", "Unlimited by default (empty = no limit). Configurable 0–8,388,608 bytes (~8 MB). Chunked encoding bypasses Content-Length check.",
-      "https://campus.barracuda.com/product/webapplicationfirewall/doc/4259870/configuring-request-limits/"},
-    {"Radware AppWall", "1 MB (GUI layer). Configurable via JS config file. Fast Upload (>3 MB) bypasses body inspection.",
-      "https://support.radware.com/app/answers/answer_view/a_id/1020912/~/appwall-error:-413-payload-too-large"},
-    {"Sucuri", "~1.25 MB (internally managed, not user-configurable).",
-      "https://labs.sucuri.net/signatures/waf/up010-upload-size-restricted-by-the-administrator/"}
+  String[] columnNames = {"WAF Provider", "Maximum Request Body Inspection Size Limit"};
+
+  String[][] rows = {
+    {"Cloudflare", "128 KB (Enterprise); up to 1 MB (paid plans, via Support). Dec 2025 rollout to 1 MB was reversed due to false positives."},
+    {"AWS WAF", "16 KB default (CloudFront/API GW/Cognito); 8 KB fixed (ALB/AppSync). Configurable 16–64 KB in 16 KB steps where supported."},
+    {"Azure WAF", "App Gateway: 128 KB (CRS 3.1), up to 2 MB (CRS 3.2+). Front Door: fixed 128 KB."},
+    {"Akamai", "8 KB default. Configurable to 8, 16, or 32 KB via account team."},
+    {"Fortiweb by Fortinet", "Hardware-dependent default. Configurable 0–65,536 KB (0 = unlimited) via max-http-body-length CLI parameter."},
+    {"F5 BIG-IP WAAP", "On-prem ASM: ~10 MB default (policy-configurable). Distributed Cloud WAF: 64 KB inspection limit."},
+    {"Palo Alto (Prisma Cloud WAAS)", "Not published. Configurable per policy via inspectionSizeBytes parameter."},
+    {"Barracuda WAF", "Unlimited by default (empty = no limit). Configurable 0–8,388,608 bytes (~8 MB). Chunked encoding bypasses Content-Length check."},
+    {"Radware AppWall", "1 MB (GUI layer). Configurable via JS config file. Fast Upload (>3 MB) bypasses body inspection."},
+    {"Sucuri", "~1.25 MB (internally managed, not user-configurable)."}
   };
-  
-  // Create table model and table
-  DefaultTableModel model = new DefaultTableModel(data, columnNames);
+
+  String[] urls = {
+    "https://developers.cloudflare.com/changelog/2025-12-05-waf-max-payload-size-change/",
+    "https://docs.aws.amazon.com/waf/latest/developerguide/web-acl-setting-body-inspection-limit.html",
+    "https://learn.microsoft.com/en-us/azure/web-application-firewall/ag/application-gateway-waf-request-size-limits",
+    "https://techdocs.akamai.com/application-security/reference/put-advanced-settings-request-body",
+    "https://docs.fortinet.com/document/fortiweb/7.6.4/administration-guide/277489/http-https-protocol-constraints",
+    "https://my.f5.com/manage/s/article/K11434152",
+    "https://docs.prismacloud.io/en/compute-edition/32/admin-guide/waas/waas-app-firewall",
+    "https://campus.barracuda.com/product/webapplicationfirewall/doc/4259870/configuring-request-limits/",
+    "https://support.radware.com/app/answers/answer_view/a_id/1020912/~/appwall-error:-413-payload-too-large",
+    "https://labs.sucuri.net/signatures/waf/up010-upload-size-restricted-by-the-administrator/"
+  };
+
+  DefaultTableModel model = new DefaultTableModel(rows, columnNames);
   JTable table = new JTable(model) {
     @Override
-    public Class<?> getColumnClass(int column) {
-      return String.class;
-    }
-    
+    public Class<?> getColumnClass(int column) { return String.class; }
+
     @Override
-    public boolean isCellEditable(int row, int column) {
-      return false; // Cells are not editable
-    }
+    public boolean isCellEditable(int row, int column) { return false; }
   };
-  
-  // Enable row selection
-  table.setCellSelectionEnabled(true);
-  table.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-  
-  // Set column widths based on percentage of total table width
-  final int totalWidth = 1000; // Assume a total table width of 1000 pixels
-  table.getColumnModel().getColumn(0).setPreferredWidth((int) (totalWidth * 0.15)); // 15%
-  table.getColumnModel().getColumn(1).setPreferredWidth((int) (totalWidth * 0.35)); // 35%
-  table.getColumnModel().getColumn(2).setPreferredWidth((int) (totalWidth * 0.50)); // 50%
-  
-  // Wrap the table in a scroll pane and return it
+
+  // Render the WAF Provider column as a clickable hyperlink
+  table.getColumnModel().getColumn(0).setCellRenderer(new DefaultTableCellRenderer() {
+    @Override
+    public Component getTableCellRendererComponent(
+        JTable t, Object value, boolean isSelected, boolean hasFocus, int row, int col) {
+      super.getTableCellRendererComponent(t, value, isSelected, hasFocus, row, col);
+      setForeground(Color.BLUE);
+      setFont(getFont().deriveFont(Font.PLAIN));
+      setText(value.toString());
+      setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+      return this;
+    }
+  });
+
+  // Open the URL when the WAF Provider cell is clicked
+  table.addMouseListener(new MouseAdapter() {
+    @Override
+    public void mouseClicked(MouseEvent e) {
+      int col = table.columnAtPoint(e.getPoint());
+      int row = table.rowAtPoint(e.getPoint());
+      if (col == 0 && row >= 0 && row < urls.length) {
+        try { Desktop.getDesktop().browse(new URI(urls[row])); }
+        catch (Exception ignored) {}
+      }
+    }
+  });
+
+  // Change cursor to hand when hovering over the provider column
+  table.addMouseMotionListener(new MouseAdapter() {
+    @Override
+    public void mouseMoved(MouseEvent e) {
+      int col = table.columnAtPoint(e.getPoint());
+      table.setCursor(col == 0
+        ? Cursor.getPredefinedCursor(Cursor.HAND_CURSOR)
+        : Cursor.getDefaultCursor());
+    }
+  });
+
+  table.setCellSelectionEnabled(false);
+
+  final int totalWidth = 1000;
+  table.getColumnModel().getColumn(0).setPreferredWidth((int) (totalWidth * 0.20));
+  table.getColumnModel().getColumn(1).setPreferredWidth((int) (totalWidth * 0.80));
+
   JScrollPane scrollPane = new JScrollPane(table);
-  scrollPane.setPreferredSize(new Dimension(totalWidth, 400)); // Set preferred size for the scroll pane
+  scrollPane.setPreferredSize(new Dimension(totalWidth, 400));
   return scrollPane;
 }
 
