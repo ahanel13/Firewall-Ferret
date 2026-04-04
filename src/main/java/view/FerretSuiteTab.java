@@ -253,16 +253,16 @@ private JScrollPane getTablePanel() {
   String[] columnNames = {"WAF Provider", "Maximum Request Body Inspection Size Limit"};
 
   String[][] rows = {
-    {"Cloudflare", "128 KB (Enterprise); up to 1 MB (paid plans, via Support). Dec 2025 rollout to 1 MB was reversed due to false positives."},
-    {"AWS WAF", "16 KB default (CloudFront/API GW/Cognito); 8 KB fixed (ALB/AppSync). Configurable 16–64 KB in 16 KB steps where supported."},
-    {"Azure WAF", "App Gateway: 128 KB (CRS 3.1), up to 2 MB (CRS 3.2+). Front Door: fixed 128 KB."},
-    {"Akamai", "8 KB default. Configurable to 8, 16, or 32 KB via account team."},
-    {"Fortiweb by Fortinet", "Hardware-dependent default. Configurable 0–65,536 KB (0 = unlimited) via max-http-body-length CLI parameter."},
-    {"F5 BIG-IP WAAP", "On-prem ASM: ~10 MB default (policy-configurable). Distributed Cloud WAF: 64 KB inspection limit."},
-    {"Palo Alto (Prisma Cloud WAAS)", "Not published. Configurable per policy via inspectionSizeBytes parameter."},
-    {"Barracuda WAF", "Unlimited by default (empty = no limit). Configurable 0–8,388,608 bytes (~8 MB). Chunked encoding bypasses Content-Length check."},
-    {"Radware AppWall", "1 MB (GUI layer). Configurable via JS config file. Fast Upload (>3 MB) bypasses body inspection."},
-    {"Sucuri", "~1.25 MB (internally managed, not user-configurable)."}
+    {"Cloudflare", "Enterprise: 128 KB inspection window; Free: 1 MB; paid plans can request increase to 1 MB. "},
+    {"AWS WAF", "ALB/AppSync: fixed 8 KB. CloudFront/API Gateway/Cognito/App Runner/Verified Access: default 16 KB, configurable in 16 KB steps up to 64 KB."},
+    {"Azure WAF", "Application Gateway CRS 3.1: ~128 KB inspection; CRS 3.2+: independently configurable inspection limit (can be disabled). Max request body size separately configurable up to 2 MB. Front Door: ~128 KB."},
+    {"Akamai", "Default 8 KB; configurable to 8, 16, or 32 KB. Platform-wide maximum payload size is 128 KB."},
+    {"Fortiweb by Fortinet", "Body size limits configurable via HTTP/HTTPS protocol constraints (max-http-body-length); 0 = no enforced limit. Specific maximums are version-dependent."},
+    {"F5 BIG-IP WAAP", "On-prem ASM: policy-configurable (multi-MB range). Distributed Cloud WAF: ~64 KB inspection limit. Consult F5 support portal for current details."},
+    {"Palo Alto (Prisma Cloud WAAS)", "Configurable via policy (inspectionSizeBytes); default limits not publicly documented. Consult Palo Alto support for specifics."},
+    {"Barracuda WAF", "No enforced default limit; configurable up to ~8 MB (8,388,608 bytes). Chunked encoding can bypass Content-Length checks."},
+    {"Radware AppWall", "Default 1 MB POST body limit (v7.6.4+); configurable via admin interface or configuration files."},
+    {"Sucuri", "~1.25 MB (platform-managed, not user-configurable); enforced via UP010 signature."}
   };
 
   String[] urls = {
@@ -270,10 +270,10 @@ private JScrollPane getTablePanel() {
     "https://docs.aws.amazon.com/waf/latest/developerguide/web-acl-setting-body-inspection-limit.html",
     "https://learn.microsoft.com/en-us/azure/web-application-firewall/ag/application-gateway-waf-request-size-limits",
     "https://techdocs.akamai.com/application-security/reference/put-advanced-settings-request-body",
-    "https://docs.fortinet.com/document/fortiweb/7.6.4/administration-guide/277489/http-https-protocol-constraints",
+    "https://docs.fortinet.com/document/fortiweb/latest/administration-guide/277489/http-https-protocol-constraints",
     "https://my.f5.com/manage/s/article/K11434152",
-    "https://docs.prismacloud.io/en/compute-edition/32/admin-guide/waas/waas-app-firewall",
-    "https://campus.barracuda.com/product/webapplicationfirewall/doc/4259870/configuring-request-limits/",
+    "https://docs.prismacloud.io/en/compute-edition/34/admin-guide/waas/waas-app-firewall",
+    "https://documentation.campus.barracuda.com/wiki/display/BWAFv76/Configuring+Request+Limits",
     "https://support.radware.com/app/answers/answer_view/a_id/1020912/~/appwall-error:-413-payload-too-large",
     "https://labs.sucuri.net/signatures/waf/up010-upload-size-restricted-by-the-administrator/"
   };
